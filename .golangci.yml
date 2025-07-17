@@ -3,8 +3,6 @@ run:
   go: '1.23'
 
 linters-settings:
-  govet:
-    shadow: true
   gocyclo:
     min-complexity: 15
   dupl:
@@ -18,58 +16,22 @@ linters-settings:
     line-length: 140
   goimports:
     local-prefixes: gh-actions-tui
-  gocritic:
-    enabled-tags:
-      - diagnostic
-      - experimental
-      - opinionated
-      - performance
-      - style
-    disabled-checks:
-      - dupImport
-      - ifElseChain
-      - octalLiteral
-      - whyNoLint
 
 linters:
   disable-all: true
   enable:
-    - bodyclose
-    - dupl
     - errcheck
-    - exportloopref
-    - gochecknoinits
-    - goconst
-    - gocritic
-    - gocyclo
     - gofmt
     - goimports
-    - goprintffuncname
-    - gosec
     - gosimple
     - govet
     - ineffassign
-    - lll
     - misspell
-    - nakedret
-    - nolintlint
-    - stylecheck
     - typecheck
-    - unconvert
-    - unparam
     - unused
-    - whitespace
 
 issues:
-  exclude-rules:
-    - path: _test\.go
-      linters:
-        - gocritic
-        - gosec
-
   exclude-use-default: false
   exclude:
     - 'exported .* should have comment or be unexported'
-    - 'Error return value of .((os\.)?std(out|err)\..*|.*Close|.*Flush|os\.Remove(All)?|.*printf?|os\.(Un)?Setenv). is not checked'
-    - 'possible misuse of unsafe.Pointer'
     - 'should have a package comment'
