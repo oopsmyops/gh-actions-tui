@@ -6,7 +6,8 @@ import (
 	"os"
 
 	"gh-actions-tui/tui"
-	"github.com/charmbracelet/bubbletea"
+
+	tea "github.com/charmbracelet/bubbletea"
 )
 
 var (
