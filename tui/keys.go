@@ -3,12 +3,12 @@ package tui
 import "github.com/charmbracelet/bubbles/key"
 
 type keyMap struct {
-	Enter key.Binding
-	Back  key.Binding
-	Quit  key.Binding
-	Up    key.Binding
-	Down  key.Binding
-	PageUp key.Binding
+	Enter    key.Binding
+	Back     key.Binding
+	Quit     key.Binding
+	Up       key.Binding
+	Down     key.Binding
+	PageUp   key.Binding
 	PageDown key.Binding
 }
 
@@ -48,17 +48,17 @@ func (k keyMap) ShortHelp() []key.Binding {
 }
 
 type logsKeyMap struct {
-	Up       key.Binding
-	Down     key.Binding
-	PageUp   key.Binding
-	PageDown key.Binding
-	GoTop    key.Binding
-	GoBottom key.Binding
-	Search   key.Binding
+	Up        key.Binding
+	Down      key.Binding
+	PageUp    key.Binding
+	PageDown  key.Binding
+	GoTop     key.Binding
+	GoBottom  key.Binding
+	Search    key.Binding
 	NextMatch key.Binding
 	PrevMatch key.Binding
-	Back     key.Binding
-	Quit     key.Binding
+	Back      key.Binding
+	Quit      key.Binding
 }
 
 func (k logsKeyMap) ShortHelp() []key.Binding {

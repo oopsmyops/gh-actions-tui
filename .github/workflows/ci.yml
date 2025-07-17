@@ -5,12 +5,16 @@ on:
     branches: [ main, master ]
   pull_request:
     branches: [ main, master ]
+  workflow_dispatch:
 
 jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
 
     - name: Set up Go
       uses: actions/setup-go@v5
@@ -39,6 +43,11 @@ jobs:
 
     - name: Run vet
       run: go vet ./...
+
+    - name: Test binary with version info
+      run: |
+        go build -ldflags="-X main.version=test -X main.commit=$(git rev-parse HEAD) -X main.date=$(date -u +%Y-%m-%dT%H:%M:%SZ)" -o gh-actions-tui .
+        ./gh-actions-tui --version
 
   lint:
     runs-on: ubuntu-latest

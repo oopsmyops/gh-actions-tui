@@ -15,7 +15,7 @@ func getStatusIcon(status, conclusion string) string {
 			return "✅"
 		case "failure":
 			return "❌"
-		case "cancelled":
+		case "canceled":
 			return "🚫"
 		case "skipped":
 			return "⏭️"
@@ -42,14 +42,14 @@ func (w Workflow) Title() string       { return w.Name }
 func (w Workflow) Description() string { return w.State }
 
 type WorkflowRun struct {
-	ID          int    `json:"databaseId"`
-	Number      int    `json:"number"`
+	ID           int    `json:"databaseId"`
+	Number       int    `json:"number"`
 	DisplayTitle string `json:"displayTitle"`
-	Status      string `json:"status"`
-	Conclusion  string `json:"conclusion"`
-	Event       string `json:"event"`
-	HeadBranch  string `json:"headBranch"`
-	URL         string `json:"url"`
+	Status       string `json:"status"`
+	Conclusion   string `json:"conclusion"`
+	Event        string `json:"event"`
+	HeadBranch   string `json:"headBranch"`
+	URL          string `json:"url"`
 }
 
 func (r WorkflowRun) FilterValue() string { return r.DisplayTitle }
@@ -70,7 +70,9 @@ type Job struct {
 }
 
 func (j Job) FilterValue() string { return j.Name }
-func (j Job) Title() string       { return fmt.Sprintf("%s %s", getStatusIcon(j.Status, j.Conclusion), j.Name) }
+func (j Job) Title() string {
+	return fmt.Sprintf("%s %s", getStatusIcon(j.Status, j.Conclusion), j.Name)
+}
 func (j Job) Description() string { return j.URL }
 
 type Step struct {
@@ -177,4 +179,3 @@ func (c *Client) GetJobLogs(repo string, jobID int) (string, error) {
 
 	return stdout.String(), nil
 }
-

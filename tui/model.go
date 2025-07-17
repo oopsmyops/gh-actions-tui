@@ -2,8 +2,8 @@ package tui
 
 import (
 	"fmt"
-	"strings"
 	"gh-actions-tui/github"
+	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
 	"github.com/charmbracelet/bubbles/key"
@@ -23,27 +23,27 @@ const (
 )
 
 type model struct {
-	client         *github.Client
-	repo           string
-	list           list.Model
-	spinner        spinner.Model
-	viewport       viewport.Model
-	help           help.Model
-	keys           keyMap
-	logsKeys       logsKeyMap
-	error          error
-	view           viewState
-	loading        bool
+	client           *github.Client
+	repo             string
+	list             list.Model
+	spinner          spinner.Model
+	viewport         viewport.Model
+	help             help.Model
+	keys             keyMap
+	logsKeys         logsKeyMap
+	error            error
+	view             viewState
+	loading          bool
 	selectedWorkflow github.Workflow
-	selectedRun    github.WorkflowRun
-	selectedJob    github.Job
+	selectedRun      github.WorkflowRun
+	selectedJob      github.Job
 	// Search functionality
-	searchMode     bool
-	searchQuery    string
-	searchResults  []int // line numbers of search matches
-	currentMatch   int   // current match index
-	logContent     string // store original log content for searching
-	lastKey        string // for handling 'gg' sequence
+	searchMode    bool
+	searchQuery   string
+	searchResults []int  // line numbers of search matches
+	currentMatch  int    // current match index
+	logContent    string // store original log content for searching
+	lastKey       string // for handling 'gg' sequence
 }
 
 type workflowsLoadedMsg []github.Workflow
@@ -54,10 +54,10 @@ type logsLoadedMsg string
 func InitialModel(repo string) model {
 	s := spinner.New()
 	s.Spinner = spinner.Dot
-	
+
 	// Initialize viewport with default dimensions
 	vp := viewport.New(80, 24)
-	
+
 	logsKeys := logsKeyMap{
 		Up:       keys.Up,
 		Down:     keys.Down,
@@ -83,10 +83,10 @@ func InitialModel(repo string) model {
 			key.WithKeys("N"),
 			key.WithHelp("N", "prev match"),
 		),
-		Back:     keys.Back,
-		Quit:     keys.Quit,
+		Back: keys.Back,
+		Quit: keys.Quit,
 	}
-	
+
 	m := model{
 		client:   github.NewClient(),
 		repo:     repo,
@@ -225,7 +225,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		}
-		
+
 		// Handle viewport navigation keys when in logs view
 		if m.view == logsView && !m.loading {
 			if m.searchMode {
@@ -314,7 +314,7 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				}
 			}
 		}
-		
+
 		// If we reach here, the key wasn't handled by global handlers
 		// Pass it to the appropriate child component
 		var cmd tea.Cmd
@@ -329,14 +329,14 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 			}
 		}
 		return m, cmd
-		
+
 	case tea.WindowSizeMsg:
 		headerHeight := 3 // Title + spacing
 		footerHeight := 2 // Help text
 		verticalMarginHeight := headerHeight + footerHeight
-		
+
 		m.list.SetSize(msg.Width, msg.Height-verticalMarginHeight)
-		
+
 		// Properly size viewport for logs view
 		m.viewport.Width = msg.Width
 		m.viewport.Height = msg.Height - verticalMarginHeight
@@ -382,17 +382,17 @@ func (m *model) performSearch() {
 	if m.searchQuery == "" {
 		return
 	}
-	
+
 	m.searchResults = []int{}
 	m.currentMatch = 0
-	
+
 	lines := strings.Split(m.logContent, "\n")
 	for i, line := range lines {
 		if strings.Contains(strings.ToLower(line), strings.ToLower(m.searchQuery)) {
 			m.searchResults = append(m.searchResults, i)
 		}
 	}
-	
+
 	if len(m.searchResults) > 0 {
 		m.goToSearchResult(0)
 	}
@@ -402,7 +402,7 @@ func (m *model) nextSearchResult() {
 	if len(m.searchResults) == 0 {
 		return
 	}
-	
+
 	m.currentMatch = (m.currentMatch + 1) % len(m.searchResults)
 	m.goToSearchResult(m.currentMatch)
 }
@@ -411,7 +411,7 @@ func (m *model) prevSearchResult() {
 	if len(m.searchResults) == 0 {
 		return
 	}
-	
+
 	m.currentMatch = (m.currentMatch - 1 + len(m.searchResults)) % len(m.searchResults)
 	m.goToSearchResult(m.currentMatch)
 }
@@ -420,7 +420,7 @@ func (m *model) goToSearchResult(index int) {
 	if index >= len(m.searchResults) {
 		return
 	}
-	
+
 	lineNum := m.searchResults[index]
 	// Calculate the percentage position in the content
 	lines := strings.Split(m.logContent, "\n")
