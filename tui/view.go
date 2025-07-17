@@ -7,9 +7,7 @@ import (
 )
 
 var (
-	headerStyle  = lipgloss.NewStyle().Bold(true).Padding(0, 1)
-	spinnerStyle = lipgloss.NewStyle().Foreground(lipgloss.Color("63"))
-	helpStyle    = lipgloss.NewStyle().Foreground(lipgloss.Color("241"))
+	headerStyle = lipgloss.NewStyle().Bold(true).Padding(0, 1)
 )
 
 func (m model) View() string {

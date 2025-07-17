@@ -52,12 +52,11 @@ type jobsLoadedMsg []github.Job
 type logsLoadedMsg string
 
 func InitialModel(repo string) model {
-	s := spinner.NewModel()
+	s := spinner.New()
 	s.Spinner = spinner.Dot
 	
 	// Initialize viewport with default dimensions
 	vp := viewport.New(80, 24)
-	vp.HighPerformanceRendering = false
 	
 	logsKeys := logsKeyMap{
 		Up:       keys.Up,
@@ -256,19 +255,19 @@ func (m model) Update(msg tea.Msg) (tea.Model, tea.Cmd) {
 				// Handle navigation keys
 				switch msg.String() {
 				case "up", "k":
-					m.viewport.LineUp(1)
+					m.viewport.ScrollUp(1)
 					m.lastKey = ""
 					return m, nil
 				case "down", "j":
-					m.viewport.LineDown(1)
+					m.viewport.ScrollDown(1)
 					m.lastKey = ""
 					return m, nil
 				case "pgup", "b", "u":
-					m.viewport.ViewUp()
+					m.viewport.PageUp()
 					m.lastKey = ""
 					return m, nil
 				case "pgdown", "f", "d", " ":
-					m.viewport.ViewDown()
+					m.viewport.PageDown()
 					m.lastKey = ""
 					return m, nil
 				case "home":
