@@ -2,7 +2,6 @@ package tui
 
 import (
 	"fmt"
-	"gh-actions-tui/github"
 	"strings"
 
 	"github.com/charmbracelet/bubbles/help"
@@ -11,6 +10,8 @@ import (
 	"github.com/charmbracelet/bubbles/spinner"
 	"github.com/charmbracelet/bubbles/viewport"
 	tea "github.com/charmbracelet/bubbletea"
+
+	"gh-actions-tui/github"
 )
 
 type viewState int
